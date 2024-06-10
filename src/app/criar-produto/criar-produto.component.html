@@ -1,0 +1,63 @@
+<h1>Criar Produto</h1>
+
+{{ vetorProd | json}}
+
+<!--FORMULARIO-->
+
+<form [formGroup]="formProd">
+  <!--ID-->
+  <!--@if (formProd.get('id').hasError('required') && formProd.get('id').touched) {
+  <p class="alert alert-warning">O campo Id é obrigatório</p>
+  }-->
+  @if (formProd.get('id').hasError('min') && formProd.get('id').touched) {
+  <p class="alert alert-warning">O campo Id não aceita números inferiores a zero.</p>
+  }
+  <input type="number" formControlName="id" placeholder="Id" class="form-control">
+
+
+  <!--NOME-->
+  @if (formProd.get('nome').hasError('required') && formProd.get('nome').touched) {
+  <p class="alert alert-warning">O campo Nome é obrigatório.</p>
+  }
+  @if (formProd.get('nome').hasError('minlength') && formProd.get('nome').touched) {
+  <p class="alert alert-warning">O campo precisa conter pelo menos 3 caracteres.</p>
+  }
+  <input type="text" formControlName="nome" placeholder="Nome produto" class="form-control">
+
+  <!--VALOR-->
+  @if (formProd.get('valor').hasError('required') && formProd.get('valor').touched) {
+  <p class="alert alert-warning">O campos Valor é obrigatório.</p>
+  }
+  @if (formProd.get('valor').hasError('min') && formProd.get('valor').touched) {
+  <p class="alert alert-warning">O campo valor não aceita números inferiores a zero.</p>
+  }
+  <input type="number" formControlName="valor" placeholder="Valor" class="form-control">
+
+
+  <!--BUTTONS-->
+  <input type="button" value="Cadastrar" class="btn btn-primary" *ngIf="btnCadProd" (click)="cadastar()">
+  <input type="button" value="Alterar" class="btn btn-primary" *ngIf="!btnCadProd" (click)="alterar()">
+  <input type="button" value="Remover" class="btn btn-danger" *ngIf="!btnCadProd" (click)="remover()">
+
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Valor</th>
+      <th>Selecionar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let vProd of vetorProd; index as indice">
+      <td> {{ indice + 1}}</td>
+      <td>{{vProd.id}}</td>
+      <td>{{vProd.nome}}</td>
+      <td>{{vProd.valor}}</td>
+      <td><button class="btn btn-primary" (click)="selecionarProduto(indice)">Selecionar</button></td>
+    </tr>
+  </tbody>
+</table>
